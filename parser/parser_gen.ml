@@ -217,37 +217,3 @@ let create_parser_table (rule:rule) grammar =
   in
   create_parser_table_aux init_item;
   simplify_table table
-
-
-let grammar =
-  [{ lhs = Nonterminal S ; rhs = [Nonterminal E ; Terminal Eof ] } ;
-  { lhs = Nonterminal E ; rhs = [Nonterminal E ; Terminal Plus; Nonterminal T] } ;
-  { lhs = Nonterminal E ; rhs = [Nonterminal T] } ;
-  { lhs = Nonterminal T ; rhs = [Nonterminal T ; Terminal Star ; Nonterminal F] };
-  { lhs = Nonterminal T ; rhs = [Nonterminal F] };
-  { lhs = Nonterminal F ; rhs = [Terminal Lparen ; Nonterminal E ; Terminal Rparen] } ;
-  { lhs = Nonterminal F ; rhs = [Terminal Id] }
-]
-
-(*
-let from_action = function
-  | Shift x -> x
-  | Reduce r -> []
-  | _ -> []
-
-
-let _ =
-  let grammar = [
-    { lhs = Nonterminal S ; rhs = [Nonterminal E ; Terminal Eof ] } ;
-    { lhs = Nonterminal E ; rhs = [Terminal Lparen ; Nonterminal E ; Terminal Rparen] } ;
-    { lhs = Nonterminal E ; rhs = [Terminal Id] }
-  ] in
-  let tokens = [Nonterminal S ; Nonterminal E ; Terminal Lparen ; Terminal Rparen ; Terminal Id ; Terminal Eof] in
-  let rule = {lhs = Nonterminal S ; rhs = [Nonterminal E ; Terminal Eof]} in
-  let table = create_parser_table rule grammar in
-  let n = ref 0 in
-  Hashtbl.iter (fun k v -> print_int !n ; n := !n + 1 ; pprint_parser_items (fst k) (snd k) (from_action v)) table
-  (*
-  create_closure [{lhs = Nonterminal S ; seen = [Nonterminal E] ; ahead = [Terminal Eof]}] items
-  *)
-*)

@@ -8,12 +8,15 @@ type regex =
   | Choice of regex * regex
   | Repeat of regex
 
-let rec print_regex = function
+type state = IntSet.t
+type dfa   = ((state * char), state) Hashtbl.t
+
+let rec pprint_regex = function
   | Empty           -> "_"
   | Symbol c        -> Printf.sprintf "%c" c
-  | Concat (r1, r2) -> "(" ^ (print_regex r1) ^ (print_regex r2) ^ ")"
-  | Choice (r1, r2) -> (print_regex r1) ^ " | " ^ (print_regex r2)
-  | Repeat r1       -> Printf.sprintf "%s*" (print_regex r1)
+  | Concat (r1, r2) -> "(" ^ (pprint_regex r1) ^ (pprint_regex r2) ^ ")"
+  | Choice (r1, r2) -> (pprint_regex r1) ^ " | " ^ (pprint_regex r2)
+  | Repeat r1       -> Printf.sprintf "%s*" (pprint_regex r1)
 
 let rec get_alpha = function
   | Empty -> CharSet.empty
@@ -62,6 +65,9 @@ let reachable_states nfa states sym =
   List.flatten
   (List.map (fun x -> reachable_states_from_one nfa x sym) states)
 
+let is_accept state =
+  IntSet.singleton (-1) = state
+
 let to_dfa r = 
   let dfa = Hashtbl.create 1024 in
   let alpha = CharSet.elements (get_alpha r) in
@@ -76,12 +82,22 @@ let to_dfa r =
     let next_states = 
       List.filter (fun x -> not (IntSet.is_empty (snd x)))
       next_states in
+    (*
+    List.iter
+      (fun (c,s) ->
+        Printf.printf "%b\n" (Hashtbl.mem dfa (init, c));
+        (List.iter (fun i -> print_int i ; print_char ' ') (IntSet.elements s))) next_states;
+    *)
     List.iter (fun (c, s) ->
-      Hashtbl.add dfa (init, c) s;
+      if (not (Hashtbl.mem dfa (init, c))) then begin
+        Hashtbl.add dfa (init, c) s; to_dfa_aux s
+      end else begin
+        ()
+      end;
       if (IntSet.mem end_state s) then
         Hashtbl.add dfa (s, '\n') (IntSet.singleton (-1))
-      else ();
-      to_dfa_aux s) next_states
+      else ()
+      ) next_states
   in
   let init_states = IntSet.of_list ([0] @ (reachable_states nfa [0] None)) in
   to_dfa_aux init_states;
