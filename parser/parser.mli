@@ -1,25 +1,27 @@
 (* tokens to parse tree *)
 module type GrammarSig =
   sig
-    type token
-    type nonterminal
-    type sym
-    type rule
+    include Lexer.TokenSig
 
-    val pprint_token : token -> string
+    type nonterminal
+    type sym = Terminal of token | Nonterminal of nonterminal
+    type rule = { lhs : sym ; rhs : sym list }
+
     val pprint_nonterminal : nonterminal -> string
-    val pprint_sym : sym -> string
+    val grammar : rule list
+    val eof : sym
   end
 
 module type S =
   sig
-    type parse_tree
-    type parser_table
+    type sym
+    type parse_tree = 
+      | Empty
+      | Leaf of sym
+      | Node of sym * parse_tree list
 
-    val parse_input : parser_table -> sym list -> parse_tree
+    val parse_input : sym list -> parse_tree option
+    val pprint_sym : sym -> string
   end
 
-
-module Make
-  (T : TokenSig)
-  (S : GrammarSig with type token = T.token) : S
+module Make (G : GrammarSig) : S with type sym = G.sym
