@@ -21,6 +21,7 @@ module type S =
       | Node of sym * parse_tree list
 
     val parse_input : sym list -> parse_tree option
+    val gen_ast     : parse_tree -> Syntax.syntax_tree
     val pprint_sym : sym -> string
   end
 
