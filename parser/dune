@@ -1,3 +1,3 @@
 (library
   (name parser)
-  (libraries lexer))
+  (libraries lexer syntax))
