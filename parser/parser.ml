@@ -14,6 +14,7 @@ module type GrammarSig =
 module type S =
   sig
     type sym
+    type rule
 
     type parse_tree = 
       | Empty
@@ -21,13 +22,13 @@ module type S =
       | Node of sym * parse_tree list
 
     val parse_input : sym list -> parse_tree option
-    val gen_ast     : parse_tree -> Syntax.syntax_tree
     val pprint_sym : sym -> string
   end
 
 module Make (G : GrammarSig) = struct
   open G
   type sym = G.sym
+  type rule = G.rule
 
   type parse_tree = 
     | Empty
@@ -240,9 +241,6 @@ module Make (G : GrammarSig) = struct
           None
     in
     parse_input_aux 0 input
-
-  let gen_ast _ =
-    Syntax.Empty
 end
 
 (*

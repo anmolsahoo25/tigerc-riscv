@@ -3,6 +3,7 @@ open Grammar
 
 module Lexing = Lexer.Make (Token)
 module Parsing = Parser.Make (Grammar)
+module SyntaxGen = Syntax.Make (Parsing)
 
 open Parsing
 
