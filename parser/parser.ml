@@ -14,7 +14,6 @@ module type GrammarSig =
 module type S =
   sig
     type sym
-    type rule
 
     type parse_tree = 
       | Empty
@@ -28,7 +27,6 @@ module type S =
 module Make (G : GrammarSig) = struct
   open G
   type sym = G.sym
-  type rule = G.rule
 
   type parse_tree = 
     | Empty

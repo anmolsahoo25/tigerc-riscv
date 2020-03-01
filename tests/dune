@@ -1,3 +1,3 @@
 (tests
   (names testsuite)
-  (libraries ounit2 lexer parser syntax))
+  (libraries ounit2 lexer parser))

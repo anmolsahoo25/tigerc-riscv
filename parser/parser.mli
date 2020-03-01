@@ -15,7 +15,6 @@ module type GrammarSig =
 module type S =
   sig
     type sym
-    type rule
 
     type parse_tree = 
       | Empty
