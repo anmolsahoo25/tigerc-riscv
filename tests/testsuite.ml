@@ -3,8 +3,9 @@ open Grammar
 
 module Lexing = Lexer.Make (Token)
 module Parsing = Parser.Make (Grammar)
+module SyntaxGen = Syntax.Make (Syntaxsig)
 
-open Parsing
+open Syntaxsig
 
 (* auxillary functions *)
 let ic_from_string = Scanf.Scanning.from_string
@@ -49,6 +50,8 @@ let t_to_id_tree =
   Node (Nonterminal T, [Node (Nonterminal F, [Leaf (Terminal (Id ""))])])
 let f_to_id_tree =
   Node (Nonterminal F, [Leaf (Terminal (Id ""))])
+let f_to_paren_e_to_id_tree =
+  Node (Nonterminal F, [Leaf (Terminal Lparen) ; e_to_id_tree ; Leaf (Terminal Rparen)])
 let id_plus_id_tree =
   Node (Nonterminal E, [e_to_id_tree ; Leaf (Terminal (Op Plus)) ; t_to_id_tree])
 let id_star_id_tree =
@@ -84,6 +87,49 @@ let test_parser_id_star_id_plus_id =
    Terminal (Id "") ; Terminal (Op Plus) ; Terminal (Id "") ; Terminal Rparen; Terminal Eof]
   (Some id_star_id_plus_id_tree)
 
+(* ast tests *)
+let test_ast_f_id _ =
+  let parsed_tree = f_to_id_tree in
+  let syntax_tree = SyntaxGen.gen_syntax_tree parsed_tree in
+  let expect_tree = Syntaxsig.Id in
+  assert_equal syntax_tree expect_tree
+
+let test_ast_t_id _ =
+  let parsed_tree = t_to_id_tree in
+  let syntax_tree = SyntaxGen.gen_syntax_tree parsed_tree in
+  let expect_tree = Syntaxsig.Id in
+  assert_equal syntax_tree expect_tree
+
+let test_ast_e_id _ =
+  let parsed_tree = e_to_id_tree in
+  let syntax_tree = SyntaxGen.gen_syntax_tree parsed_tree in
+  let expect_tree = Syntaxsig.Id in
+  assert_equal syntax_tree expect_tree
+
+let test_ast_f_paren_e_id _ =
+  let parsed_tree = f_to_paren_e_to_id_tree in
+  let syntax_tree = SyntaxGen.gen_syntax_tree parsed_tree in
+  let expect_tree = Syntaxsig.Id in
+  assert_equal syntax_tree expect_tree
+
+let test_ast_id_plus_id _ =
+  let parsed_tree = id_plus_id_tree in
+  let syntax_tree = SyntaxGen.gen_syntax_tree parsed_tree in
+  let expect_tree = AddOp (Id, Id) in
+  assert_equal syntax_tree expect_tree
+
+let test_ast_id_star_id _ =
+  let parsed_tree = id_star_id_tree in
+  let syntax_tree = SyntaxGen.gen_syntax_tree parsed_tree in
+  let expect_tree = MulOp (Id, Id) in
+  assert_equal syntax_tree expect_tree
+
+let test_ast_id_star_id_plus_id _ =
+  let parsed_tree = id_star_id_plus_id_tree in
+  let syntax_tree = SyntaxGen.gen_syntax_tree parsed_tree in
+  let expect_tree = MulOp (Id, AddOp (Id, Id)) in
+  assert_equal syntax_tree expect_tree
+
 let suite = 
   "TestSuite" >::: [
     "test_lexer_if_else" >:: test_lexer_if_else ;
@@ -92,7 +138,14 @@ let suite =
     "test_parser_single_id" >:: test_parser_single_id ;
     "test_parser_op_plus" >:: test_parser_op_plus ;
     "test_parser_op_star" >:: test_parser_op_star ;
-    "test_parser_id_star_id_plus_id" >:: test_parser_id_star_id_plus_id
+    "test_parser_id_star_id_plus_id" >:: test_parser_id_star_id_plus_id ;
+    "test_ast_f_id" >:: test_ast_f_id ;
+    "test_ast_t_id" >:: test_ast_t_id ;
+    "test_ast_e_id" >:: test_ast_e_id ;
+    "test_ast_f_paren_e_id" >:: test_ast_f_paren_e_id ;
+    "test_ast_id_plus_id" >:: test_ast_id_plus_id ;
+    "test_ast_id_star_id" >:: test_ast_id_star_id ;
+    "test_ast_id_star_id_plus_id" >:: test_ast_id_star_id_plus_id
   ]
 
 let () =
