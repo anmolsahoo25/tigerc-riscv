@@ -1,11 +1,12 @@
 open OUnit2
 open Grammar
+open Syntaxsig
+open Frontend
 
 module Lexing = Lexer.Make (Token)
 module Parsing = Parser.Make (Grammar)
 module SyntaxGen = Syntax.Make (Syntaxsig)
 
-open Syntaxsig
 
 (* auxillary functions *)
 let ic_from_string = Scanf.Scanning.from_string

@@ -1,5 +1,5 @@
 open Grammar
-module M = Parser.Make (Grammar)
+module M = Frontend.Parser.Make (Grammar)
 
 include M
 
