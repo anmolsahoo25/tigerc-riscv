@@ -26,3 +26,5 @@ let semantic_action syms children = match syms with
   | [Nonterminal T ; Nonterminal T ; Terminal (Op Star) ; Nonterminal F] ->
       MulOp ((List.nth children 0), (List.nth children 2))
   | _ -> Empty
+
+let type_check _ = Ok ()

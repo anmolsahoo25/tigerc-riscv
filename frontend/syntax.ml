@@ -10,7 +10,7 @@ module type S = sig
   type parse_tree
   type syntax_tree
 
-  val  gen_syntax_tree : parse_tree -> syntax_tree
+  val gen_syntax_tree : parse_tree -> syntax_tree
 end
 
 module Make (SS : SyntaxSig) = struct
