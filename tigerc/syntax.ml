@@ -1,38 +1,4 @@
-module Token = struct
-
-  type token =
-    | Eof
-
-  let pprint_token = function
-    | _ -> ""
-
-  let token_regex = []
-end
-
-module Grammar = struct
-  include Token
-
-  type nonterminal =
-    | S
-
-  type sym =
-    | Terminal of token
-    | Nonterminal of nonterminal
-
-  type rule = { lhs : sym ; rhs : sym list }
-
-  let pprint_terminal = function
-    | _ -> ""
-
-  let pprint_nonterminal = function
-    | _ -> ""
-
-  let grammar = []
-
-  let eof = Terminal Eof
-end
-
-module ParserGen = Frontend.Parser.Make (Grammar)
+module ParserGen = Front.Parser.Make (Grammar)
 
 module SyntaxSig = struct
   include ParserGen
@@ -43,6 +9,8 @@ module SyntaxSig = struct
   let get_empty _ = Empty
 
   let semantic_action _ _ = Empty
+
+  let gen_treelang _ = Middle.Treelang.Empty
 end
 
-module SyntaxGen = Frontend.Syntax.Make (SyntaxSig)
+module SyntaxGen = Front.Syntax.Make (SyntaxSig)

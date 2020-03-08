@@ -1,7 +1,7 @@
 open OUnit2
 open Grammar
 open Syntaxsig
-open Frontend
+open Front
 
 module Lexing = Lexer.Make (Token)
 module Parsing = Parser.Make (Grammar)

@@ -1,5 +1,5 @@
 (* token module *)
-open Frontend.Lexer.Regex
+open Front.Lexer.Regex
 
 type op =
   | Plus

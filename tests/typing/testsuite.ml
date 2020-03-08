@@ -1,5 +1,5 @@
 open OUnit2
-open Frontend
+open Front
 open Syntaxsig
 
 module Lexing = Lexer.Make (Token)
