@@ -9,8 +9,6 @@ module SyntaxSig = struct
   let get_empty _ = Empty
 
   let semantic_action _ _ = Empty
-
-  let gen_treelang _ = Middle.Treelang.Empty
 end
 
 module SyntaxGen = Front.Syntax.Make (SyntaxSig)

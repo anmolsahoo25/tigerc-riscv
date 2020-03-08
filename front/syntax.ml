@@ -11,7 +11,6 @@ module type S = sig
   type syntax_tree
 
   val gen_syntax_tree : parse_tree -> syntax_tree
-  val gen_treelang    : syntax_tree -> Middle.Treelang.expr
 end
 
 module Make (SS : SyntaxSig) = struct
@@ -34,6 +33,4 @@ module Make (SS : SyntaxSig) = struct
     | Node (_,c) as n ->
       let children = List.map gen_syntax_tree c in
       SS.semantic_action (get_sym n) children
-
-  let gen_treelang _ = Middle.Treelang.Empty
 end

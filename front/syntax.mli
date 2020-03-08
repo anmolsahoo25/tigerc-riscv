@@ -11,7 +11,6 @@ module type S = sig
   type syntax_tree
 
   val gen_syntax_tree : parse_tree -> syntax_tree
-  val gen_treelang    : syntax_tree -> Middle.Treelang.expr
 end
 
 module Make (SS : SyntaxSig) : S
