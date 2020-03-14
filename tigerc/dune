@@ -1,3 +1,3 @@
 (library
   (name tigerc)
-  (libraries front))
+  (libraries front middle))

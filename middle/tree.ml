@@ -1,16 +1,16 @@
-type expr =
+type exp =
   | Const of int
   | Temp of Temp.temp
-  | Binop of binop * expr * expr
-  | Mem of expr
-  | Call of expr * expr list
-  | Eseq of stm * expr
+  | Binop of binop * exp * exp
+  | Mem of exp
+  | Call of exp * exp list
+  | Eseq of stm * exp
 
 and stm =
-  | Move of expr * expr
-  | Exp of expr
-  | Jump of expr * (Temp.label list)
-  | Cjump of relop * expr * expr * Temp.label * Temp.label
+  | Move of exp * exp
+  | Exp of exp
+  | Jump of exp * (Temp.label list)
+  | Cjump of relop * exp * exp * Temp.label * Temp.label
   | Seq of stm * stm
   | Label of Temp.label
 
