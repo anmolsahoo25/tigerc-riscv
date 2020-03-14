@@ -17,7 +17,7 @@ let rec upd_frame_acc acc init = match acc with
 
 let make_acc = function
   | true -> InFrame 0
-  | false -> InReg (Temp.new_temp ())
+  | false -> InReg (Temp.newtemp ())
 
 let new_frame name formals =
   let accf = List.map make_acc formals in
@@ -32,4 +32,4 @@ let alloc_local f esc = match esc with
   | true -> 
       let loc = f.stack_loc in
       (f.stack_loc <- (f.stack_loc - 1)) ; InFrame loc
-  | false -> InReg (Temp.new_temp ())
+  | false -> InReg (Temp.newtemp ())

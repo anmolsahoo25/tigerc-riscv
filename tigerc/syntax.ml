@@ -13,10 +13,10 @@ module SyntaxSig = struct
     | SubscriptVar of var * exp
 
   and exp =
-    | VarExp of var
     | NilExp
     | IntExp of int
     | StringExp of string
+    | VarExp of var
     | CallExp of {func: symbol ; args: exp list}
     | OpExp of {left: exp ; oper: oper ; right: exp}
     | RecordExp of {fields: (symbol * exp) list ; typ: symbol}

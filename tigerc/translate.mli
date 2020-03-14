@@ -1,1 +1,1 @@
-val exp : Syntax.SyntaxSig.exp -> Middle.Tree.exp
+val translate : Syntax.SyntaxSig.exp -> Middle.Tree.exp

@@ -1,6 +1,6 @@
 type temp
 type label
 
-val new_temp    : unit -> temp
-val new_label   : unit -> label
+val newtemp    : unit -> temp
+val newlabel   : unit -> label
 val named_label : string -> label

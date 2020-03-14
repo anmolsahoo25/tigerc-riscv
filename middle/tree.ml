@@ -1,5 +1,6 @@
 type exp =
   | Const of int
+  | Name of Temp.label
   | Temp of Temp.temp
   | Binop of binop * exp * exp
   | Mem of exp
@@ -11,7 +12,7 @@ and stm =
   | Exp of exp
   | Jump of exp * (Temp.label list)
   | Cjump of relop * exp * exp * Temp.label * Temp.label
-  | Seq of stm * stm
+  | Seq of stm list
   | Label of Temp.label
 
 and binop =
