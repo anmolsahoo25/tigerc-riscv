@@ -23,8 +23,6 @@ type ty =
   | TyChar
   | TyUnit
 
-let get_empty _ = Empty
-
 let semantic_action _ _ = Empty
 
 let type_check tree =

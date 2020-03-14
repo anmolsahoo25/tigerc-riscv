@@ -6,8 +6,6 @@ module SyntaxSig = struct
   type syntax_tree =
     | Empty
 
-  let get_empty _ = Empty
-
   let semantic_action _ _ = Empty
 end
 

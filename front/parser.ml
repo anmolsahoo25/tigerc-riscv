@@ -16,7 +16,6 @@ module type S =
     type sym
 
     type parse_tree = 
-      | Empty
       | Leaf of sym
       | Node of sym * parse_tree list
 
@@ -29,7 +28,6 @@ module Make (G : GrammarSig) = struct
   type sym = G.sym
 
   type parse_tree = 
-    | Empty
     | Leaf of sym
     | Node of sym * parse_tree list
 
@@ -217,7 +215,7 @@ module Make (G : GrammarSig) = struct
     let stack = Stack.create () in
     let root_rule = List.hd (G.grammar) in
     let parser_table = create_parser_table root_rule G.grammar in
-    Stack.push (Empty, 0) stack;
+    Stack.push (Leaf G.eof, 0) stack;
     let rec parse_input_aux state input =
       let scan_token = List.hd input in
       let action =

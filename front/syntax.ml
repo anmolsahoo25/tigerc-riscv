@@ -2,7 +2,6 @@ module type SyntaxSig =
   sig
     include Parser.S
     type syntax_tree
-    val  get_empty : unit -> syntax_tree
     val  semantic_action : sym list -> syntax_tree list -> syntax_tree
   end
 
@@ -18,17 +17,14 @@ module Make (SS : SyntaxSig) = struct
   type syntax_tree = SS.syntax_tree
 
   let get_sym_aux = let open SS in function
-    | Empty -> assert false
     | Leaf s -> s
     | Node (s, _) -> s
 
   let get_sym = let open SS in function
-    | Empty -> assert false
     | Leaf s -> [s]
     | Node (s,c) -> s :: (List.map get_sym_aux c)
 
   let rec gen_syntax_tree = let open SS in function
-    | Empty -> SS.get_empty ()
     | Leaf s -> SS.semantic_action [s] []
     | Node (_,c) as n ->
       let children = List.map gen_syntax_tree c in

@@ -13,8 +13,6 @@ and
 
 syntax_tree = expr
 
-let get_empty _ = Empty
-
 let semantic_action syms children = match syms with
   | [Nonterminal F ; Terminal (Id _)] -> Id
   | [Nonterminal T ; Nonterminal F] -> List.hd children

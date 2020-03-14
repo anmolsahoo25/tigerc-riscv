@@ -2,7 +2,6 @@ module type SyntaxSig =
   sig
     include Parser.S
     type syntax_tree
-    val  get_empty : unit -> syntax_tree
     val  semantic_action : sym list -> syntax_tree list -> syntax_tree
   end
 

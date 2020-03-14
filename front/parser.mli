@@ -17,7 +17,6 @@ module type S =
     type sym
 
     type parse_tree = 
-      | Empty
       | Leaf of sym
       | Node of sym * parse_tree list
 
